@@ -26,6 +26,7 @@
             --ad-bg: #e0e0e0; /* Light background for Ad */
             --trending-color: #ff3e6c; /* Bright color for Trending label */
             --gemini-color: #008000; /* Green for Gemini button */
+            --tab-active-bg: #e9ecef; /* Background for active tab */
         }
 
         /* DARK MODE - Toggle Class */
@@ -37,6 +38,7 @@
             --shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             --header-bg: #27273d;
             --ad-bg: #3c3c5c; /* Dark background for Ad */
+            --tab-active-bg: #3c3c5c;
         }
 
         * {
@@ -78,6 +80,41 @@
             gap: 15px;
         }
         
+        /* --- NEW TAB/NAVIGATION SECTION STYLES --- */
+        #tab-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 10px 0;
+            margin-top: 15px; 
+            border-bottom: 2px solid var(--text-light);
+            max-width: 1200px;
+            margin: 15px auto 10px auto; 
+            padding: 0 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: transparent;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s, border-bottom 0.3s;
+            outline: none;
+            border-bottom: 3px solid transparent; /* To prevent jump */
+        }
+        
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
         /* --- MONETIZATION AD BANNER (FIXED FOR MOBILE) --- */
         #banner-ad-container {
             width: 100%;
@@ -166,9 +203,28 @@
         /* General container and card styles */
         .container {
             max-width: 1200px;
-            margin: 0 auto 30px auto; /* Adjust top margin as banner is sticky */
+            margin: 0 auto 30px auto; 
             padding: 0 20px;
         }
+        
+        /* --- NEW XML CONTENT STYLES --- */
+        #xml-content {
+            display: none; 
+            text-align: center;
+            padding: 50px 20px;
+            min-height: 40vh;
+        }
+        #xml-content h2 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        #xml-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+
         #listing-page {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -185,7 +241,7 @@
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative; /* For the trending label */
+            position: relative; 
         }
         .prompt-card:hover {
             transform: translateY(-5px);
@@ -384,34 +440,50 @@
         </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/778ff12c1b99474a39ffa65b463a450c/invoke.js"></script>
     </div>
+    
+    <div id="tab-nav">
+        <button id="tab-ai-photos" class="tab-button active" onclick="changeTab('ai-photos')">
+            <i class="fas fa-image" style="margin-right: 5px;"></i> AI Photo's
+        </button>
+        <button id="tab-xml" class="tab-button" onclick="changeTab('xml')">
+            <i class="fas fa-code" style="margin-right: 5px;"></i> XML
+        </button>
+    </div>
 
     <div class="container">
-        
-        <div id="listing-page">
-            <h2 class="loading-text">Loading Prompts from Database...</h2>
+        <div id="ai-photos-content">
+            <div id="listing-page">
+                <h2 class="loading-text">Loading Prompts from Database...</h2>
+            </div>
+
+            <div id="detail-page">
+                <button class="back-button" onclick="showListingPage()"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Gallery</button>
+                
+                <div class="detail-content"> 
+                    
+                    <div class="detail-image-container"> 
+                        <img id="detail-prompt-image" src="" alt="AI Generated Image">
+                    </div>
+                    
+                    <div class="prompt-text-box">
+                        <p id="detail-prompt-text">Loading prompt text...</p>
+                    </div>
+
+                    <button class="copy-button" id="copy-btn">
+                        <i class="fas fa-copy" style="margin-right: 8px;"></i> Copy Full Prompt
+                    </button>
+                    
+                    <button id="gemini-btn">
+                        <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Go To Gemini
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div id="detail-page">
-            <button class="back-button" onclick="showListingPage()"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Gallery</button>
-            
-            <div class="detail-content"> 
-                
-                <div class="detail-image-container"> 
-                    <img id="detail-prompt-image" src="" alt="AI Generated Image">
-                </div>
-                
-                <div class="prompt-text-box">
-                    <p id="detail-prompt-text">Loading prompt text...</p>
-                </div>
-
-                <button class="copy-button" id="copy-btn">
-                    <i class="fas fa-copy" style="margin-right: 8px;"></i> Copy Full Prompt
-                </button>
-                
-                <button id="gemini-btn">
-                    <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Go To Gemini
-                </button>
-            </div>
+        <div id="xml-content">
+            <h2><i class="fas fa-tools"></i> Maintenance Mode</h2>
+            <p>Cooming Soon.......</p>
+            <p style="margin-top: 15px;">We're working hard to bring you the best XML features!</p>
         </div>
 
         <div id="copied-alert" class="copied-message">Prompt Copied!</div>
@@ -438,14 +510,21 @@
 
         const app = firebase.initializeApp(firebaseConfig);
         const db = app.database(); 
-
-        let allPrompts = []; 
+let allPrompts = []; 
+        
+        // --- NEW ELEMENTS FOR TABS ---
+        const aiPhotosContent = document.getElementById('ai-photos-content');
+        const xmlContent = document.getElementById('xml-content');
+        const tabAiPhotos = document.getElementById('tab-ai-photos');
+        const tabXml = document.getElementById('tab-xml');
+        // -----------------------------
+        
         const listingPage = document.getElementById('listing-page');
         const detailPage = document.getElementById('detail-page');
         const detailPromptImage = document.getElementById('detail-prompt-image');
         const detailPromptText = document.getElementById('detail-prompt-text');
         const copyButton = document.getElementById('copy-btn');
-        const geminiButton = document.getElementById('gemini-btn'); // NEW ELEMENT
+        const geminiButton = document.getElementById('gemini-btn'); 
         const copiedAlert = document.getElementById('copied-alert');
         const body = document.body;
         const modeChanger = document.getElementById('mode-changer');
@@ -492,50 +571,13 @@
         }
 
         function filterPrompts(searchTerm) {
-            const term = searchTerm.toLowerCase().trim();
-            
-            if (allPrompts.length === 0) return;
-
-            const filteredPrompts = allPrompts.filter(prompt => {
-                const titleMatch = prompt.title.toLowerCase().includes(term);
-                const promptMatch = prompt.promptText ? prompt.promptText.toLowerCase().includes(term) : false;
-                
-                return titleMatch || promptMatch;
-            });
-            
-            renderCards(filteredPrompts); 
-        }
-        
-        // --- RENDERING FUNCTIONS ---
-        function renderCards(promptsToRender) {
-            listingPage.innerHTML = '';
-            
-            if (promptsToRender.length === 0) {
-                listingPage.innerHTML = `<p class="loading-text">No results found for your search.</p>`;
-                return;
+            // Ensure search only works on the 'ai-photos' tab
+            if (xmlContent.style.display === 'block') {
+                return; // Do nothing if on XML tab
             }
 
-            promptsToRender.forEach((prompt, index) => { 
-                const card = document.createElement('div');
-                card.className = 'prompt-card';
-                card.onclick = () => showDetailPage(prompt.id); 
-                
-                // Trending Label Logic: Only show for the first item (Index 0)
-                const trendingLabel = index === 0 ? '<div class="trending-label">TRENDING 🔥</div>' : '';
-
-                card.innerHTML = `
-                    ${trendingLabel}
-                    <div class="card-image">
-                        <img src="${prompt.coverImageUrl}" alt="${prompt.title}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x220/3d3d5c/ffffff?text=No+Image'">
-                    </div>
-                    <div class="card-content">
-                        <h2>${prompt.title}</h2>
-                        <p>Date: ${prompt.dateCreated || 'N/A'}</p>
-                    </div>
-                `;
-                listingPage.appendChild(card);
-            });
-        }
+            const term = searchTerm.toLowerCase().trim();
+            }
         
         // --- LOCAL STORAGE CLICK TRACKING ---
         function getClickData() {
@@ -603,7 +645,6 @@
                         allPrompts.splice(1, 0, promptToMove);    // Insert at index 1
                     }
                 }
-
 
                 renderCards(allPrompts); 
 
@@ -697,13 +738,14 @@
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             loadThemePreference(); // Load theme setting
+            // 🚀 Set initial view to 'ai-photos'
+            changeTab('ai-photos'); 
             renderListingPage();   // Start fetching data
         });
         
     </script>
 </body>
 </html>
-
    <div id="banner-ad-container">
         <script type="text/javascript">
             atOptions = {
@@ -725,3 +767,4 @@
 >
     ©Mizo Prompt By Rameshgoran3
 </a>
+         
