@@ -394,7 +394,6 @@
             font-weight: 600;
             animation: fadeInOut 2.5s forwards;
         }
-
         /* Custom Animation for the Alert */
         @keyframes fadeInOut {
             0% { opacity: 0; bottom: 0px; }
@@ -577,7 +576,72 @@ let allPrompts = [];
             }
 
             const term = searchTerm.toLowerCase().trim();
+            
+            if (allPrompts.length === 0) return;
+
+            const filteredPrompts = allPrompts.filter(prompt => {
+                const titleMatch = prompt.title.toLowerCase().includes(term);
+                const promptMatch = prompt.promptText ? prompt.promptText.toLowerCase().includes(term) : false;
+                
+                return titleMatch || promptMatch;
+            });
+            
+            renderCards(filteredPrompts); 
+        }
+        
+        // --- NEW TAB SWITCHING LOGIC ---
+        function changeTab(tabName) {
+            // Reset active states
+            tabAiPhotos.classList.remove('active');
+            tabXml.classList.remove('active');
+            
+            // Hide all content blocks
+            aiPhotosContent.style.display = 'none';
+            xmlContent.style.display = 'none';
+            
+            if (tabName === 'ai-photos') {
+                tabAiPhotos.classList.add('active');
+                aiPhotosContent.style.display = 'block';
+                // Hide search input when switching to this tab
+                searchInput.classList.remove('expanded');
+            } else if (tabName === 'xml') {
+                tabXml.classList.add('active');
+                xmlContent.style.display = 'block';
+                // Hide search input when switching to this tab
+                searchInput.classList.remove('expanded');
             }
+        }
+
+        // --- RENDERING FUNCTIONS ---
+        function renderCards(promptsToRender) {
+            listingPage.innerHTML = '';
+            
+            if (promptsToRender.length === 0) {
+                listingPage.innerHTML = `<p class="loading-text">No results found for your search.</p>`;
+                return;
+            }
+
+            promptsToRender.forEach((prompt, index) => { 
+                const card = document.createElement('div');
+                card.className = 'prompt-card';
+                card.onclick = () => showDetailPage(prompt.id); 
+                
+                // Trending Label Logic: Only show for the first item (Index 0)
+                const trendingLabel = index === 0 ? '<div class="trending-label">TRENDING 🔥</div>' : '';
+
+                card.innerHTML = `
+                    ${trendingLabel}
+                    <div class="card-image">
+                        <img src="${prompt.coverImageUrl}" alt="${prompt.title}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x220/3d3d5c/ffffff?text=No+Image'">
+                    </div>
+                    <div class="card-content">
+                        <h2>${prompt.title}</h2>
+                        <p>Date: ${prompt.dateCreated || 'N/A'}</p>
+                    </div>
+                `;
+                listingPage.appendChild(card);
+            });
+        }
         
         // --- LOCAL STORAGE CLICK TRACKING ---
         function getClickData() {
@@ -767,4 +831,3 @@ let allPrompts = [];
 >
     ©Mizo Prompt By Rameshgoran3
 </a>
-         
