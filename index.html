@@ -349,7 +349,7 @@
             transition: background-color 0.3s, transform 0.1s ease-out, box-shadow 0.3s;
             box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
         }
-        .copy-button:hover {
+         .copy-button:hover {
             background-color: #0056b3; 
             box-shadow: 0 6px 10px rgba(0, 123, 255, 0.4);
         }
@@ -569,7 +569,8 @@ let allPrompts = [];
                 searchInput.focus();
             }
         }
-           function filterPrompts(searchTerm) {
+
+        function filterPrompts(searchTerm) {
             // Ensure search only works on the 'ai-photos' tab
             if (xmlContent.style.display === 'block') {
                 return; // Do nothing if on XML tab
