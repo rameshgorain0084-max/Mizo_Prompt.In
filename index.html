@@ -26,7 +26,6 @@
             --ad-bg: #e0e0e0; /* Light background for Ad */
             --trending-color: #ff3e6c; /* Bright color for Trending label */
             --gemini-color: #008000; /* Green for Gemini button */
-            --tab-active-bg: #e9ecef; /* Background for active tab */
         }
 
         /* DARK MODE - Toggle Class */
@@ -38,7 +37,6 @@
             --shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             --header-bg: #27273d;
             --ad-bg: #3c3c5c; /* Dark background for Ad */
-            --tab-active-bg: #3c3c5c;
         }
 
         * {
@@ -80,41 +78,6 @@
             gap: 15px;
         }
         
-        /* --- NEW TAB/NAVIGATION SECTION STYLES --- */
-        #tab-nav {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            padding: 10px 0;
-            margin-top: 15px; 
-            border-bottom: 2px solid var(--text-light);
-            max-width: 1200px;
-            margin: 15px auto 10px auto; 
-            padding: 0 20px;
-        }
-
-        .tab-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: transparent;
-            color: var(--text-light);
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.3s, border-bottom 0.3s;
-            outline: none;
-            border-bottom: 3px solid transparent; /* To prevent jump */
-        }
-        
-        .tab-button:hover {
-            color: var(--primary-color);
-        }
-
-        .tab-button.active {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-        }
-
         /* --- MONETIZATION AD BANNER (FIXED FOR MOBILE) --- */
         #banner-ad-container {
             width: 100%;
@@ -203,28 +166,9 @@
         /* General container and card styles */
         .container {
             max-width: 1200px;
-            margin: 0 auto 30px auto; 
+            margin: 0 auto 30px auto; /* Adjust top margin as banner is sticky */
             padding: 0 20px;
         }
-        
-        /* --- NEW XML CONTENT STYLES --- */
-        #xml-content {
-            display: none; 
-            text-align: center;
-            padding: 50px 20px;
-            min-height: 40vh;
-        }
-        #xml-content h2 {
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-bottom: 10px;
-        }
-        #xml-content p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-        }
-
-
         #listing-page {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -241,7 +185,7 @@
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative; 
+            position: relative; /* For the trending label */
         }
         .prompt-card:hover {
             transform: translateY(-5px);
@@ -349,7 +293,7 @@
             transition: background-color 0.3s, transform 0.1s ease-out, box-shadow 0.3s;
             box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
         }
-         .copy-button:hover {
+        .copy-button:hover {
             background-color: #0056b3; 
             box-shadow: 0 6px 10px rgba(0, 123, 255, 0.4);
         }
@@ -440,50 +384,34 @@
         </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/778ff12c1b99474a39ffa65b463a450c/invoke.js"></script>
     </div>
-    
-    <div id="tab-nav">
-        <button id="tab-ai-photos" class="tab-button active" onclick="changeTab('ai-photos')">
-            <i class="fas fa-image" style="margin-right: 5px;"></i> AI Photo's
-        </button>
-        <button id="tab-xml" class="tab-button" onclick="changeTab('xml')">
-            <i class="fas fa-code" style="margin-right: 5px;"></i> XML
-        </button>
-    </div>
 
     <div class="container">
-        <div id="ai-photos-content">
-            <div id="listing-page">
-                <h2 class="loading-text">Loading Prompts from Database...</h2>
-            </div>
-
-            <div id="detail-page">
-                <button class="back-button" onclick="showListingPage()"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Gallery</button>
-                
-                <div class="detail-content"> 
-                    
-                    <div class="detail-image-container"> 
-                        <img id="detail-prompt-image" src="" alt="AI Generated Image">
-                    </div>
-                    
-                    <div class="prompt-text-box">
-                        <p id="detail-prompt-text">Loading prompt text...</p>
-                    </div>
-
-                    <button class="copy-button" id="copy-btn">
-                        <i class="fas fa-copy" style="margin-right: 8px;"></i> Copy Full Prompt
-                    </button>
-                    
-                    <button id="gemini-btn">
-                        <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Go To Gemini
-                    </button>
-                </div>
-            </div>
+        
+        <div id="listing-page">
+            <h2 class="loading-text">Loading Prompts from Database...</h2>
         </div>
 
-        <div id="xml-content">
-            <h2><i class="fas fa-tools"></i> Maintenance Mode</h2>
-            <p>Cooming Soon.......</p>
-            <p style="margin-top: 15px;">We're working hard to bring you the best XML features!</p>
+            <div id="detail-page">
+            <button class="back-button" onclick="showListingPage()"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Gallery</button>
+            
+            <div class="detail-content"> 
+                
+                <div class="detail-image-container"> 
+                    <img id="detail-prompt-image" src="" alt="AI Generated Image">
+                </div>
+                
+                <div class="prompt-text-box">
+                    <p id="detail-prompt-text">Loading prompt text...</p>
+                </div>
+
+                <button class="copy-button" id="copy-btn">
+                    <i class="fas fa-copy" style="margin-right: 8px;"></i> Copy Full Prompt
+                </button>
+                
+                <button id="gemini-btn">
+                    <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Go To Gemini
+                </button>
+            </div>
         </div>
 
         <div id="copied-alert" class="copied-message">Prompt Copied!</div>
@@ -508,23 +436,16 @@
           appId: "1:516044771309:web:343777eecbe0881c6961e4"
         };
 
-        const app = firebase)).initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(firebaseConfig);
         const db = app.database(); 
-let allPrompts = []; 
-        
-        // --- NEW ELEMENTS FOR TABS ---
-        const aiPhotosContent = document.getElementById('ai-photos-content');
-        const xmlContent = document.getElementById('xml-content');
-        const tabAiPhotos = document.getElementById('tab-ai-photos');
-        const tabXml = document.getElementById('tab-xml');
-        // -----------------------------
-        
+
+        let allPrompts = []; 
         const listingPage = document.getElementById('listing-page');
         const detailPage = document.getElementById('detail-page');
         const detailPromptImage = document.getElementById('detail-prompt-image');
         const detailPromptText = document.getElementById('detail-prompt-text');
         const copyButton = document.getElementById('copy-btn');
-        const geminiButton = document.getElementById('gemini-btn'); 
+        const geminiButton = document.getElementById('gemini-btn'); // NEW ELEMENT
         const copiedAlert = document.getElementById('copied-alert');
         const body = document.body;
         const modeChanger = document.getElementById('mode-changer');
@@ -571,11 +492,6 @@ let allPrompts = [];
         }
 
         function filterPrompts(searchTerm) {
-            // Ensure search only works on the 'ai-photos' tab
-            if (xmlContent.style.display === 'block') {
-                return; // Do nothing if on XML tab
-            }
-
             const term = searchTerm.toLowerCase().trim();
             
             if (allPrompts.length === 0) return;
@@ -590,29 +506,6 @@ let allPrompts = [];
             renderCards(filteredPrompts); 
         }
         
-        // --- NEW TAB SWITCHING LOGIC ---
-        function changeTab(tabName) {
-            // Reset active states
-            tabAiPhotos.classList.remove('active');
-            tabXml.classList.remove('active');
-            
-            // Hide all content blocks
-            aiPhotosContent.style.display = 'none';
-            xmlContent.style.display = 'none';
-            
-            if (tabName === 'ai-photos') {
-                tabAiPhotos.classList.add('active');
-                aiPhotosContent.style.display = 'block';
-                // Hide search input when switching to this tab
-                searchInput.classList.remove('expanded');
-            } else if (tabName === 'xml') {
-                tabXml.classList.add('active');
-                xmlContent.style.display = 'block';
-                // Hide search input when switching to this tab
-                searchInput.classList.remove('expanded');
-            }
-        }
-
         // --- RENDERING FUNCTIONS ---
         function renderCards(promptsToRender) {
             listingPage.innerHTML = '';
@@ -711,6 +604,7 @@ let allPrompts = [];
                     }
                 }
 
+
                 renderCards(allPrompts); 
 
             } catch (error) {
@@ -803,14 +697,13 @@ let allPrompts = [];
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             loadThemePreference(); // Load theme setting
-            // 🚀 Set initial view to 'ai-photos'
-            changeTab('ai-photos'); 
             renderListingPage();   // Start fetching data
         });
         
     </script>
 </body>
 </html>
+
    <div id="banner-ad-container">
         <script type="text/javascript">
             atOptions = {
@@ -823,10 +716,6 @@ let allPrompts = [];
         </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/778ff12c1b99474a39ffa65b463a450c/invoke.js"></script>
     </div>
-
-   </script>
-</body>
-</html>
 
 <footer style="text-align: center; padding: 20px; color: var(--text-light); font-size: 0.9rem;">
     <p>©Mizo Prompt By Rameshgoran3</p>
