@@ -388,11 +388,9 @@
     <div class="container">
         
         <div id="listing-page">
-           
-             <h2 class="loading-text">Loading Prompts from Database...</h2>
+            <h2 class="loading-text">Loading Prompts from Database...</h2>
         </div>
-   
-       
+
         <div id="detail-page">
             <button class="back-button" onclick="showListingPage()"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Gallery</button>
             
@@ -544,10 +542,10 @@
             const clicks = localStorage.getItem('promptClicks');
             return clicks ? JSON.parse(clicks) : {};
         }
-
-        function incrementClickCount(id) {
-            const clickData = getClickData();
-            // Default value is 0, increment by 1
+function incrementClickCount(id) {
+           const clickData = getClickData();
+           
+    // Default value is 0, increment by 1
             clickData[id] = (clickData[id] || 0) + 1; 
             localStorage.setItem('promptClicks', JSON.stringify(clickData));
         }
